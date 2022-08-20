@@ -78,6 +78,8 @@ class Tree
     p cur
     case
     when cur.l_child.nil? && cur.r_child.nil? then prev.l_child == cur ? prev.l_child = nil : prev.r_child = nil
+    when cur.l_child.nil? then prev.l_child == cur ? prev.l_child = cur.r_child : prev.r_child = cur.r_child
+    when cur.r_child.nil? then prev.l_child == cur ? prev.l_child = cur.l_child : prev.r_child = cur.l_child
     end
   end
 
@@ -96,8 +98,10 @@ class Tree
 
 end
 
-tree = Tree.new([1, 3, 4, 6, 7, 8, 9])
+tree = Tree.new([1, 3, 4, 6, 7, 8, 10])
 
 tree.pretty_print
-tree.delete(1)
+tree.delete(4)
+tree.pretty_print
+tree.delete(3)
 tree.pretty_print
