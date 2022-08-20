@@ -39,12 +39,12 @@ class Tree
   end
 
   def traverse(node = self.root, result = [])
-    puts "#{node}"
+    #puts "#{node}"
     result << node.value
     return node.value if node.l_child.nil? or node.r_child.nil?
     result << traverse(node.l_child)
     result << traverse(node.r_child)
-    p result.flatten
+    result.flatten
   end
 
   def insert(value)
@@ -64,6 +64,20 @@ class Tree
   end
 
   def delete(value)
+    @root = build_tree(traverse - [value])
+  end
+
+  def find(value)
+    return root if root.value == value
+    cur = root
+    until cur.value == value
+      if value < cur.value
+        cur = cur.l_child
+      else
+        cur = cur.r_child
+      end
+    end
+    cur
   end
 
 end
@@ -72,4 +86,5 @@ tree = Tree.new([1, 3, 4, 6, 7, 8, 9])
 #tree.pretty_print
 #tree.insert(5)
 tree.pretty_print
-tree.traverse
+p tree.traverse
+p tree.find(6)
