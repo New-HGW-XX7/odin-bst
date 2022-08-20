@@ -39,12 +39,14 @@ class Tree
   end
 
   def traverse(node = root, result = [])
-    #puts "#{node}"
-    result << node.value
-    return node.value if node.l_child.nil? or node.r_child.nil?
-    result << traverse(node.l_child)
+    if node.nil?
+      return
+    else
+      result << node.value
+    end
+    result << traverse(node.l_child) 
     result << traverse(node.r_child)
-    result.flatten
+    result.flatten.compact
   end
 
   def insert(value)
@@ -86,8 +88,12 @@ class Tree
     when cur.r_child.l_child.nil? && cur.r_child.r_child.nil?
       cur.r_child.l_child = cur.l_child
       prev.l_child == cur ? prev.l_child = cur.r_child : prev.r_child = cur.r_child
-
-
+    # If node has two children and right child is not a leaf
+    when cur.r_child.l_child.nil? == false || cur.r_child.r_child.nil? == false
+      #prev.l_child == cur ? prev.l_child = cur.r_child : prev.r_child = cur.r_child
+      p 'found'
+      temp = traverse(cur.l_child)
+      p temp
     end
   end
 
@@ -106,8 +112,12 @@ class Tree
 
 end
 
-tree = Tree.new([1, 3, 4, 6, 7, 8, 10])
+tree = Tree.new([1, 3, 5, 7, 8, 9, 10])
 
 tree.pretty_print
-tree.delete(3)
+tree.insert(4)
+tree.insert(6)
+tree.insert(2)
 tree.pretty_print
+tree.delete(3)
+#tree.pretty_print
