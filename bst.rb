@@ -38,6 +38,15 @@ class Tree
     node
   end
 
+  def traverse(node = self.root, result = [])
+    puts "#{node}"
+    result << node.value
+    return node.value if node.l_child.nil? or node.r_child.nil?
+    result << traverse(node.l_child)
+    result << traverse(node.r_child)
+    p result.flatten
+  end
+
   def insert(value)
     cur = self.root
     prev = nil
@@ -53,9 +62,14 @@ class Tree
     p cur = Node.new(value)
     cur.value < prev.value ? prev.l_child = cur : prev.r_child = cur
   end
+
+  def delete(value)
+  end
+
 end
 
 tree = Tree.new([1, 3, 4, 6, 7, 8, 9])
+#tree.pretty_print
+#tree.insert(5)
 tree.pretty_print
-tree.insert(5)
-tree.pretty_print
+tree.traverse
