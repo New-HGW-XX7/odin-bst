@@ -77,9 +77,17 @@ class Tree
     end
     p cur
     case
+    # If node is a leaf
     when cur.l_child.nil? && cur.r_child.nil? then prev.l_child == cur ? prev.l_child = nil : prev.r_child = nil
+    # If node has one child
     when cur.l_child.nil? then prev.l_child == cur ? prev.l_child = cur.r_child : prev.r_child = cur.r_child
     when cur.r_child.nil? then prev.l_child == cur ? prev.l_child = cur.l_child : prev.r_child = cur.l_child
+    # If node has two children and right child is a leaf
+    when cur.r_child.l_child.nil? && cur.r_child.r_child.nil?
+      cur.r_child.l_child = cur.l_child
+      prev.l_child == cur ? prev.l_child = cur.r_child : prev.r_child = cur.r_child
+
+
     end
   end
 
@@ -100,8 +108,6 @@ end
 
 tree = Tree.new([1, 3, 4, 6, 7, 8, 10])
 
-tree.pretty_print
-tree.delete(4)
 tree.pretty_print
 tree.delete(3)
 tree.pretty_print
