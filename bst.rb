@@ -38,14 +38,14 @@ class Tree
     node
   end
 
-  def traverse(node = root, result = [])
+  def traverse_and_map(node = root, result = [])
     if node.nil?
       return
     else
       result << node.value
     end
-    result << traverse(node.l_child) 
-    result << traverse(node.r_child)
+    result << traverse_and_map(node.l_child) 
+    result << traverse_and_map(node.r_child)
     result.flatten.compact
   end
 
@@ -61,7 +61,7 @@ class Tree
         cur = cur.r_child
       end
     end
-    p cur = Node.new(value)
+    cur = Node.new(value)
     cur.value < prev.value ? prev.l_child = cur : prev.r_child = cur
   end
 
@@ -90,10 +90,10 @@ class Tree
       prev.l_child == cur ? prev.l_child = cur.r_child : prev.r_child = cur.r_child
     # If node has two children and right child is not a leaf
     when cur.r_child.l_child.nil? == false || cur.r_child.r_child.nil? == false
-      #prev.l_child == cur ? prev.l_child = cur.r_child : prev.r_child = cur.r_child
-      p 'found'
-      temp = traverse(cur.l_child)
-      p temp
+      prev.l_child == cur ? prev.l_child = cur.r_child : prev.r_child = cur.r_child
+
+      temp = traverse_and_map(cur.l_child)
+      temp.each { |el| self.insert(el) }
     end
   end
 
@@ -120,4 +120,4 @@ tree.insert(6)
 tree.insert(2)
 tree.pretty_print
 tree.delete(3)
-#tree.pretty_print
+tree.pretty_print
