@@ -14,6 +14,12 @@ class Tree
   def initialize(arr)
     @root = build_tree(arr)
   end
+  
+  def pretty_print(node = @root, prefix = '', is_left = true)
+    pretty_print(node.r_child, "#{prefix}#{is_left ? '│   ' : '    '}", false) if node.r_child
+    puts "#{prefix}#{is_left ? '└── ' : '┌── '}#{node.value}"
+    pretty_print(node.l_child, "#{prefix}#{is_left ? '    ' : '│   '}", true) if node.l_child
+  end
 
   def build_tree(arr, left = [], right = [])
     return arr if arr.length < 1
@@ -32,12 +38,24 @@ class Tree
     node
   end
 
-  def pretty_print(node = @root, prefix = '', is_left = true)
-    pretty_print(node.r_child, "#{prefix}#{is_left ? '│   ' : '    '}", false) if node.r_child
-    puts "#{prefix}#{is_left ? '└── ' : '┌── '}#{node.value}"
-    pretty_print(node.l_child, "#{prefix}#{is_left ? '    ' : '│   '}", true) if node.l_child
+  def insert(value)
+    cur = self.root
+    prev = nil
+    until cur.nil?
+      if value < cur.value
+        prev = cur
+        cur = cur.l_child
+      else
+        prev = cur
+        cur = cur.r_child
+      end
+    end
+    p cur = Node.new(value)
+    cur.value < prev.value ? prev.l_child = cur : prev.r_child = cur
   end
 end
 
-tree = Tree.new([1, 2, 3, 4, 5])
+tree = Tree.new([1, 3, 4, 6, 7, 8, 9])
+tree.pretty_print
+tree.insert(5)
 tree.pretty_print
