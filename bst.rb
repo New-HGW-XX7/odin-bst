@@ -38,7 +38,7 @@ class Tree
     node
   end
 
-  def traverse(node = self.root, result = [])
+  def traverse(node = root, result = [])
     #puts "#{node}"
     result << node.value
     return node.value if node.l_child.nil? or node.r_child.nil?
@@ -48,7 +48,7 @@ class Tree
   end
 
   def insert(value)
-    cur = self.root
+    cur = root
     prev = nil
     until cur.nil?
       if value < cur.value
@@ -64,7 +64,21 @@ class Tree
   end
 
   def delete(value)
-    @root = build_tree(traverse - [value])
+    cur = root
+    prev = nil
+    until cur.value == value
+      if value < cur.value
+        prev = cur
+        cur = cur.l_child
+      else
+        prev = cur
+        cur = cur.r_child
+      end
+    end
+    p cur
+    case
+    when cur.l_child.nil? && cur.r_child.nil? then prev.l_child == cur ? prev.l_child = nil : prev.r_child = nil
+    end
   end
 
   def find(value)
@@ -83,8 +97,7 @@ class Tree
 end
 
 tree = Tree.new([1, 3, 4, 6, 7, 8, 9])
-#tree.pretty_print
-#tree.insert(5)
+
 tree.pretty_print
-p tree.traverse
-p tree.find(6)
+tree.delete(1)
+tree.pretty_print
