@@ -19,15 +19,19 @@ class Tree
     return arr if arr.length < 1
 
     node = Node.new(arr.delete(arr[arr.length/2]))
-    puts "node: #{node} \n\n"
+    puts "node: #{node} - value #{node.value}"
 
     arr.each { |el| el < node.value ? left << el : right << el }
 
     puts "left: #{left}"
-    puts "right: #{right}"
-
+    puts "right: #{right} \n\n"
+    node.l_child = build_tree(left)
+    node.l_child = nil if node.l_child == []
+    node.r_child = build_tree(right)
+    node.r_child = nil if node.r_child == []
     node
   end
 end
 
 tree = Tree.new([1, 2, 3, 4, 5])
+p tree.root
