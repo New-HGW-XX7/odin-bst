@@ -31,7 +31,13 @@ class Tree
     node.r_child = nil if node.r_child == []
     node
   end
+
+  def pretty_print(node = @root, prefix = '', is_left = true)
+    pretty_print(node.r_child, "#{prefix}#{is_left ? '│   ' : '    '}", false) if node.r_child
+    puts "#{prefix}#{is_left ? '└── ' : '┌── '}#{node.value}"
+    pretty_print(node.l_child, "#{prefix}#{is_left ? '    ' : '│   '}", true) if node.l_child
+  end
 end
 
 tree = Tree.new([1, 2, 3, 4, 5])
-p tree.root
+tree.pretty_print
