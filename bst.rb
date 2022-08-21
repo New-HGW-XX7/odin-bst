@@ -109,19 +109,17 @@ class Tree
     cur
   end
 
-  def level_order
+  def level_order(&block)
     values = []
     q = [root]
     until q.empty?
-        values << q.first.value
-        q << q.first.l_child unless q.first.l_child.nil?
-        q << q.first.r_child unless q.first.r_child.nil?
-        puts "queue:"
-        p q
-        q.shift
-      #end
+      block.call(q.first) if block_given?
+      values << q.first.value
+      q << q.first.l_child unless q.first.l_child.nil?
+      q << q.first.r_child unless q.first.r_child.nil?
+      q.shift
     end
-    p values
+    p values if !block_given?
   end
 
 end
@@ -129,4 +127,4 @@ end
 tree = Tree.new([1, 3, 5, 7, 8, 9, 10])
 
 tree.pretty_print
-tree.level_order
+tree.level_order { |node| puts node.value }
