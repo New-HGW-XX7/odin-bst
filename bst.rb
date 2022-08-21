@@ -172,8 +172,8 @@ class Tree
 
   def height(node, i = 0, result_l = 0, result_r = 0, result = [])
     return i if node.l_child.nil? && node.r_child.nil?
-    result_l = height(node.l_child, i + 1)
-    result_r = height(node.r_child, i + 1)
+    result_l = height(node.l_child, i + 1) unless node.l_child.nil?
+    result_r = height(node.r_child, i + 1) unless node.r_child.nil?
     result = [result_l, result_r]
     p result.sort[1]
   end
@@ -193,11 +193,21 @@ class Tree
     puts "Depth: #{counter}"
   end
     
-
+  def balanced?
+    if height(root.l_child) - height(root.r_child) > -2 && height(root.l_child) - height(root.r_child) < 2
+      return true
+    else
+      return false
+    end
+  end
 end
 
 tree = Tree.new([1, 3, 5, 7, 8, 9, 10])
 
 
+p tree.balanced?
+tree.insert(0)
+tree.insert(-1)
+tree.insert(-2)
 tree.pretty_print
-tree.depth(tree.root.l_child.r_child)
+p tree.balanced?
