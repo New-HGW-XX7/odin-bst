@@ -98,7 +98,6 @@ class Tree
   end
 
   def find(value)
-    return root if root.value == value
     cur = root
     until cur.value == value
       if value < cur.value
@@ -110,14 +109,24 @@ class Tree
     cur
   end
 
+  def level_order
+    values = []
+    q = [root]
+    until q.empty?
+        values << q.first.value
+        q << q.first.l_child unless q.first.l_child.nil?
+        q << q.first.r_child unless q.first.r_child.nil?
+        puts "queue:"
+        p q
+        q.shift
+      #end
+    end
+    p values
+  end
+
 end
 
 tree = Tree.new([1, 3, 5, 7, 8, 9, 10])
 
 tree.pretty_print
-tree.insert(4)
-tree.insert(6)
-tree.insert(2)
-tree.pretty_print
-tree.delete(3)
-tree.pretty_print
+tree.level_order
