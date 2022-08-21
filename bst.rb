@@ -155,6 +155,21 @@ class Tree
       puts inorder(node.r_child)
     end
   end
+
+  def postorder(node = root, &block)
+    if block_given?
+      return block.call(node) if node.l_child.nil? && node.r_child.nil?
+      inorder(node.l_child, &block)
+      inorder(node.r_child, &block)
+      block.call(node)
+    else
+      return node.value if node.l_child.nil? && node.r_child.nil?
+      puts inorder(node.l_child)
+      puts inorder(node.r_child)
+      puts node.value
+    end
+  end
+
 end
 
 tree = Tree.new([1, 3, 5, 7, 8, 9, 10])
@@ -163,4 +178,4 @@ tree.pretty_print
 #tree.level_order { |node| puts node.value }
 #tree.level_order_rec { |node| puts node.value }
 #tree.preorder { |node| puts node.value * 100 }
-tree.inorder #{ |node| puts node.value * 10 }
+tree.postorder { |node| puts node.value * 10 }
