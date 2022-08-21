@@ -10,8 +10,9 @@ class Node
 end
 
 class Tree
-  attr_reader :root
+  attr_reader :root, :length
   def initialize(arr)
+    @length = arr.length
     @root = build_tree(arr)
   end
   
@@ -122,13 +123,15 @@ class Tree
     p values if !block_given?
   end
 
-  def level_order_rec(q = [root])
+  def level_order_rec(q = [root], values = [], &block)
     return if q.empty?
+    block.call(q.first) if block_given?
+    values << q.first.value
     q << q.first.l_child unless q.first.l_child.nil?
     q << q.first.r_child unless q.first.r_child.nil?
-    puts q.first.value
     q.shift
-    level_order_rec(q)
+    values << level_order_rec(q, &block)
+    p values.flatten.compact if !block_given?
   end
 end
 
@@ -136,4 +139,4 @@ tree = Tree.new([1, 3, 5, 7, 8, 9, 10])
 
 tree.pretty_print
 #tree.level_order { |node| puts node.value }
-tree.level_order_rec
+tree.level_order_rec { |node| puts node.value }
