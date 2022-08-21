@@ -122,9 +122,18 @@ class Tree
     p values if !block_given?
   end
 
+  def level_order_rec(q = [root])
+    return if q.empty?
+    q << q.first.l_child unless q.first.l_child.nil?
+    q << q.first.r_child unless q.first.r_child.nil?
+    puts q.first.value
+    q.shift
+    level_order_rec(q)
+  end
 end
 
 tree = Tree.new([1, 3, 5, 7, 8, 9, 10])
 
 tree.pretty_print
-tree.level_order { |node| puts node.value }
+#tree.level_order { |node| puts node.value }
+tree.level_order_rec
