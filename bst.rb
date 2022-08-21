@@ -134,11 +134,12 @@ class Tree
     p values.flatten.compact if !block_given?
   end
 
-  def preorder(node = root)
+  def preorder(node = root, &block)
     puts node.value
+    block.call(node) if block_given?
     return if node.l_child.nil? && node.r_child.nil?
-    preorder(node.l_child)
-    preorder(node.r_child)
+    preorder(node.l_child, &block)
+    preorder(node.r_child, &block)
   end
 end
 
@@ -147,4 +148,4 @@ tree = Tree.new([1, 3, 5, 7, 8, 9, 10])
 tree.pretty_print
 #tree.level_order { |node| puts node.value }
 #tree.level_order_rec { |node| puts node.value }
-tree.preorder
+tree.preorder { |node| puts node.value * 100 }
