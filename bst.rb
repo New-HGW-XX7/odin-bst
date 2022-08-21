@@ -13,7 +13,7 @@ class Tree
   attr_reader :root, :length
   def initialize(arr)
     @length = arr.length
-    @root = build_tree(arr)
+    @root = build_tree(arr.sort)
   end
   
   def pretty_print(node = @root, prefix = '', is_left = true)
@@ -135,11 +135,11 @@ class Tree
   end
 
   def preorder(node = root, &block)
-    puts node.value if !block_given?
     block.call(node) if block_given?
+    puts node.value if !block_given?
     return if node.l_child.nil? && node.r_child.nil?
-    preorder(node.l_child, &block)
-    preorder(node.r_child, &block)
+    preorder(node.l_child, &block) unless node.l_child.nil?
+    preorder(node.r_child, &block) unless node.r_child.nil?
   end
 
   def inorder(node = root, &block)
@@ -150,9 +150,9 @@ class Tree
       inorder(node.r_child, &block)
     else
       return node.value if node.l_child.nil? && node.r_child.nil?
-      puts inorder(node.l_child)
+      puts inorder(node.l_child) unless node.l_child.nil?
       puts node.value
-      puts inorder(node.r_child)
+      puts inorder(node.r_child) unless node.r_child.nil?
     end
   end
 
@@ -207,15 +207,20 @@ class Tree
   end
 end
 
-tree = Tree.new([1, 3, 5, 7, 8, 9, 10])
-
-
-p tree.balanced?
-tree.insert(0)
-tree.insert(-1)
-tree.insert(-2)
-p tree.balanced?
+tree = Tree.new((Array.new(15) { rand(1..100) }))
 tree.pretty_print
+p tree.balanced?
+tree.level_order
+tree.preorder
+tree.inorder
+tree.postorder
+10.times { tree.insert(rand(100..1000)) }
+p tree.balanced?
 tree.rebalance
-tree.pretty_print
 p tree.balanced?
+tree.level_order
+tree.preorder
+tree.inorder
+tree.postorder
+p tree.balanced?
+tree.pretty_print
