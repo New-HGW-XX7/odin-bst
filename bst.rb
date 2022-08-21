@@ -133,10 +133,18 @@ class Tree
     values << level_order_rec(q, &block)
     p values.flatten.compact if !block_given?
   end
+
+  def preorder(node = root)
+    puts node.value
+    return if node.l_child.nil? && node.r_child.nil?
+    preorder(node.l_child)
+    preorder(node.r_child)
+  end
 end
 
 tree = Tree.new([1, 3, 5, 7, 8, 9, 10])
 
 tree.pretty_print
 #tree.level_order { |node| puts node.value }
-tree.level_order_rec { |node| puts node.value }
+#tree.level_order_rec { |node| puts node.value }
+tree.preorder
