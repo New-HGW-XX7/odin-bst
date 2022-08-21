@@ -200,6 +200,11 @@ class Tree
       return false
     end
   end
+
+  def rebalance
+    return puts "Tree is balanced" if self.balanced?
+    @root = build_tree(traverse_and_map.sort)
+  end
 end
 
 tree = Tree.new([1, 3, 5, 7, 8, 9, 10])
@@ -209,5 +214,8 @@ p tree.balanced?
 tree.insert(0)
 tree.insert(-1)
 tree.insert(-2)
+p tree.balanced?
+tree.pretty_print
+tree.rebalance
 tree.pretty_print
 p tree.balanced?
