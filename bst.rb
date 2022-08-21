@@ -177,6 +177,21 @@ class Tree
     result = [result_l, result_r]
     p result.sort[1]
   end
+
+  def depth(node)
+    counter = 0
+    cur = root
+    until cur == node
+      if node.value < cur.value
+        cur = cur.l_child
+        counter += 1
+      else
+        cur = cur.r_child
+        counter += 1
+      end
+    end
+    puts "Depth: #{counter}"
+  end
     
 
 end
@@ -185,4 +200,4 @@ tree = Tree.new([1, 3, 5, 7, 8, 9, 10])
 
 
 tree.pretty_print
-tree.height(tree.root.l_child)
+tree.depth(tree.root.l_child.r_child)
